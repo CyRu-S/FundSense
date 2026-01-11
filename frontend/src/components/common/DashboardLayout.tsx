@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom'
-import { LayoutDashboard, Wallet, PieChart, ScrollText, User, LogOut, Search } from 'lucide-react'
+import { LayoutDashboard, ScrollText, User, LogOut, Search, ArrowRightLeft, FileText, CreditCard, PiggyBank, TrendingUp, Mail, Tag, LineChart } from 'lucide-react'
 import { useAuthStore } from '@/store'
 import { Button } from '@/components/common/button'
 import { Input } from '@/components/common/input'
@@ -9,11 +9,16 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
     const location = useLocation()
 
     const navItems = [
-        { icon: LayoutDashboard, label: 'Overview', href: '/dashboard' },
-        { icon: PieChart, label: 'Portfolio', href: '/portfolio' },
-        { icon: Search, label: 'Explore Funds', href: '/funds' },
+        { icon: LayoutDashboard, label: 'Dashboard', href: '/dashboard' },
+        { icon: ArrowRightLeft, label: 'Payments', href: '/payments' },
         { icon: ScrollText, label: 'Transactions', href: '/transactions' },
-        { icon: User, label: 'Profile', href: '/profile' },
+        { icon: FileText, label: 'Invoices', href: '/invoices' },
+        { icon: CreditCard, label: 'Cards', href: '/cards' },
+        { icon: PiggyBank, label: 'Saving Plans', href: '/savings' },
+        { icon: TrendingUp, label: 'Investments', href: '/investments' },
+        { icon: Mail, label: 'Inbox', href: '/inbox', badge: 9 },
+        { icon: Tag, label: 'Promos', href: '/promos' },
+        { icon: LineChart, label: 'Insights', href: '/insights' },
     ]
 
     return (
@@ -41,6 +46,11 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                                 >
                                     <item.icon className="w-5 h-5" />
                                     {item.label}
+                                    {item.badge && (
+                                        <span className="ml-auto bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+                                            {item.badge}
+                                        </span>
+                                    )}
                                 </Button>
                             </Link>
                         )

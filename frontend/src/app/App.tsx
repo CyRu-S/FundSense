@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { lazy, Suspense } from 'react'
 import { ProtectedRoute } from './ProtectedRoute'
 import FloatingLines from '@/components/react-bits/FloatingLines'
+import ClickSpark from '@/components/react-bits/ClickSpark'
 
 // Lazy load pages for better performance
 const LandingPage = lazy(() => import('../pages/public/Home').then(m => ({ default: m.LandingPage })))
@@ -39,6 +40,13 @@ function App() {
             lineDistance={20}
             bendRadius={20}
             bendStrength={3}
+          />
+          <ClickSpark
+            sparkColor='#3b82f6'
+            sparkSize={10}
+            sparkRadius={15}
+            sparkCount={8}
+            duration={400}
           />
         </div>
         <div className="relative z-10 w-full">

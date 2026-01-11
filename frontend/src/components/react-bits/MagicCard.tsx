@@ -174,6 +174,7 @@ export const MagicCard = ({
 
         const handleMouseLeave = () => {
             isHoveredRef.current = false;
+            element.style.setProperty('--glow-intensity', '0'); // Reset glow immediately
             clearAllParticles();
 
             if (enableTilt) {
@@ -196,11 +197,19 @@ export const MagicCard = ({
         };
 
         const handleMouseMove = (e: MouseEvent) => {
-            if (!enableTilt && !enableMagnetism) return;
-
             const rect = element.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
+
+            // Update glow effect
+            const relativeX = (x / rect.width) * 100;
+            const relativeY = (y / rect.height) * 100;
+            element.style.setProperty('--glow-x', `${relativeX}%`);
+            element.style.setProperty('--glow-y', `${relativeY}%`);
+            element.style.setProperty('--glow-intensity', '1');
+
+            if (!enableTilt && !enableMagnetism) return;
+
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
 
@@ -343,7 +352,7 @@ export const MagicCard = ({
         `}
             </style>
 
-             <div className="relative z-20">
+            <div className="relative z-20">
                 {children}
             </div>
         </div>

@@ -4,21 +4,11 @@ import { Button } from '@/components/common/button'
 import { Navbar } from '@/components/common/Navbar'
 import { Footer } from '@/components/common/Footer'
 import { CardContent } from '@/components/common/card'
-import ClickSpark from '@/components/react-bits/ClickSpark'
 import { MagicCard, MagicGrid } from '@/components/react-bits/MagicCard'
 
 export function LandingPage() {
     return (
         <div className="min-h-screen relative overflow-hidden bg-transparent text-foreground selection:bg-primary/20">
-            <ClickSpark
-                sparkColor="#3b82f6"
-                sparkSize={10}
-                sparkRadius={15}
-                sparkCount={8}
-                duration={400}
-                easing="ease-out"
-                extraScale={1.2}
-            />
             {/* Background Effects */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
                 <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[100px] opacity-50" />
