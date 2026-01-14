@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, useCallback, ReactNode } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 import { gsap } from 'gsap';
 
 const DEFAULT_PARTICLE_COUNT = 12;
@@ -41,7 +41,7 @@ const updateCardGlowProperties = (card: HTMLElement, mouseX: number, mouseY: num
 };
 
 interface MagicCardProps {
-    children?: ReactNode;
+    children?: React.ReactNode;
     className?: string;
     disableAnimations?: boolean;
     style?: React.CSSProperties;
@@ -83,14 +83,14 @@ export const MagicCard = ({
     }, []);
 
     const initializeParticles = useCallback(() => {
-        if (particlesInitialized.current || !cardRef.current) return;
+        if (!enableStars || particlesInitialized.current || !cardRef.current) return;
 
         const { width, height } = cardRef.current.getBoundingClientRect();
         memoizedParticles.current = Array.from({ length: particleCount }, () =>
             createParticleElement(Math.random() * width, Math.random() * height, glowColor)
         );
         particlesInitialized.current = true;
-    }, [particleCount, glowColor]);
+    }, [particleCount, glowColor, enableStars]);
 
     const clearAllParticles = useCallback(() => {
         timeoutsRef.current.forEach(clearTimeout);
@@ -112,7 +112,7 @@ export const MagicCard = ({
     }, []);
 
     const animateParticles = useCallback(() => {
-        if (!cardRef.current || !isHoveredRef.current) return;
+        if (!enableStars || !cardRef.current || !isHoveredRef.current) return;
 
         if (!particlesInitialized.current) {
             initializeParticles();
@@ -149,7 +149,7 @@ export const MagicCard = ({
 
             timeoutsRef.current.push(timeoutId);
         });
-    }, [initializeParticles]);
+    }, [initializeParticles, enableStars]);
 
     useEffect(() => {
         // Disable complex animations on mobile
@@ -362,7 +362,7 @@ export const MagicCard = ({
 
 
 interface GlobalSpotlightProps {
-    gridRef: React.RefObject<HTMLDivElement>;
+    gridRef: React.RefObject<HTMLDivElement | null>;
     disableAnimations?: boolean;
     enabled?: boolean;
     spotlightRadius?: number;
@@ -514,7 +514,7 @@ const GlobalSpotlight = ({
 };
 
 interface MagicGridProps {
-    children: ReactNode;
+    children: React.ReactNode;
     className?: string;
     spotlightRadius?: number;
     glowColor?: string;

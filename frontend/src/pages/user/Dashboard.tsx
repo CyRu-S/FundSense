@@ -7,6 +7,7 @@ import {
 import { Button } from '@/components/common/button'
 import { Input } from '@/components/common/input'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
+import { AIRecommendations } from '@/components/ai/AIRecommendations'
 
 export function DashboardPage() {
     // --- MOCK DATA ---
@@ -407,6 +408,9 @@ export function DashboardPage() {
                         </MagicCard>
                     </div>
                 </MagicGrid>
+
+                {/* AI Recommendations Section */}
+                <AIRecommendations />
             </div>
         </DashboardLayout>
     )

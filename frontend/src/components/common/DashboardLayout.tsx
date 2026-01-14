@@ -1,8 +1,8 @@
 import { Link, useLocation } from 'react-router-dom'
-import { LayoutDashboard, ScrollText, User, LogOut, Search, ArrowRightLeft, FileText, CreditCard, PiggyBank, TrendingUp, Mail, Tag, LineChart } from 'lucide-react'
+import { LayoutDashboard, ScrollText, LogOut, ArrowRightLeft, FileText, CreditCard, PiggyBank, TrendingUp, Mail, Tag, LineChart } from 'lucide-react'
 import { useAuthStore } from '@/store'
 import { Button } from '@/components/common/button'
-import { Input } from '@/components/common/input'
+
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
     const { logout, user } = useAuthStore()
@@ -11,20 +11,16 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
     const navItems = [
         { icon: LayoutDashboard, label: 'Dashboard', href: '/dashboard' },
         { icon: ArrowRightLeft, label: 'Payments', href: '/payments' },
-        { icon: ScrollText, label: 'Transactions', href: '/transactions' },
-        { icon: FileText, label: 'Invoices', href: '/invoices' },
-        { icon: CreditCard, label: 'Cards', href: '/cards' },
-        { icon: PiggyBank, label: 'Saving Plans', href: '/savings' },
         { icon: TrendingUp, label: 'Investments', href: '/investments' },
-        { icon: Mail, label: 'Inbox', href: '/inbox', badge: 9 },
-        { icon: Tag, label: 'Promos', href: '/promos' },
+        { icon: PiggyBank, label: 'Fund Explorer', href: '/funds' },
+        { icon: Mail, label: 'Inbox', href: '/inbox' },
         { icon: LineChart, label: 'Insights', href: '/insights' },
     ]
 
     return (
         <div className="min-h-screen flex bg-transparent">
             {/* Sidebar */}
-            <aside className="fixed left-0 top-0 bottom-0 w-64 glass-card m-4 rounded-xl border-border hidden md:flex flex-col">
+            <aside className="fixed left-0 top-0 bottom-0 w-56 glass-card m-4 rounded-xl border-border hidden md:flex flex-col">
                 {/* Logo */}
                 <div className="p-6 border-b border-border/50">
                     <Link to="/" className="flex items-center gap-2">
@@ -76,7 +72,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             </aside>
 
             {/* Main Content */}
-            <main className="flex-1 md:ml-72 p-4 md:p-8 pt-20 md:pt-8 min-h-screen transition-all">
+            <main className="flex-1 md:ml-58 p-4 md:p-8 pt-20 md:pt-8 min-h-screen transition-all">
                 {children}
             </main>
         </div>

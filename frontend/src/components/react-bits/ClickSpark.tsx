@@ -1,5 +1,15 @@
 import { useRef, useEffect } from 'react';
 
+interface ClickSparkProps {
+    sparkColor?: string;
+    sparkSize?: number;
+    sparkRadius?: number;
+    sparkCount?: number;
+    duration?: number;
+    easing?: 'linear' | 'ease-in' | 'ease-out' | 'ease-in-out';
+    extraScale?: number;
+}
+
 const ClickSpark = ({
     sparkColor = '#fff',
     sparkSize = 10,
@@ -8,9 +18,9 @@ const ClickSpark = ({
     duration = 400,
     easing = 'ease-out',
     extraScale = 1.0,
-}) => {
+}: ClickSparkProps) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const sparksRef = useRef<{ x: number, y: number, angle: number, startTime: number }[]>([]);
+    const sparksRef = useRef<Array<{ x: number; y: number; angle: number; startTime: number }>>([]);
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -21,34 +31,21 @@ const ClickSpark = ({
 
         let animationId: number;
 
-        // Robust sizing using ResizeObserver to handle all layout changes/scrollbars
-        const observer = new ResizeObserver((entries) => {
-            for (const entry of entries) {
-                if (entry.target === canvas) {
-                    const dpr = window.devicePixelRatio || 1;
-                    // entry.contentRect gives accurate inner dimensions in CSS pixels
-                    const { width, height } = entry.contentRect;
+        // Simple resize - make canvas match window exactly
+        const resize = () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        };
 
-                    // Set actual buffer size to high-DPI
-                    canvas.width = width * dpr;
-                    canvas.height = height * dpr;
+        resize();
+        window.addEventListener('resize', resize);
 
-                    // Reset transform to identity then scale for DPR
-                    // This means all drawing commands can use logical CSS pixels
-                    ctx.setTransform(1, 0, 0, 1, 0, 0);
-                    ctx.scale(dpr, dpr);
-                }
-            }
-        });
-
-        observer.observe(canvas);
-
-        const easeFunc = (t: number) => {
+        const easeFunc = (t: number): number => {
             switch (easing) {
-                case "linear": return t;
-                case "ease-in": return t * t;
-                case "ease-in-out": return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-                default: return t * (2 - t);
+                case 'linear': return t;
+                case 'ease-in': return t * t;
+                case 'ease-in-out': return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+                default: return t * (2 - t); // ease-out
             }
         };
 
@@ -61,33 +58,14 @@ const ClickSpark = ({
         };
 
         const handleClick = (e: MouseEvent) => {
-            // Get position relative to the viewport keying off the bounding rect
-            // This accounts for any offset of the canvas element itself
-            const rect = canvas.getBoundingClientRect();
-
-            // We want logical coordinates for drawing (since we scaled the context)
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            createSpark(x, y);
+            // Use click coordinates directly - no transformations
+            createSpark(e.clientX, e.clientY);
         };
 
-        // Attach listener to window so we catch clicks everywhere, 
-        // but we map them relative to our canvas overlay
         window.addEventListener('click', handleClick);
 
-        const draw = (time: number) => {
-            const dpr = window.devicePixelRatio || 1;
-
-            // Clear the entire canvas. 
-            // Since we possess a transform (scale dpr, dpr), clearing (0,0, width, height) 
-            // only clears the top-left corner if we use physical dimensions.
-            // We should clear using logical dimensions (CSS pixels).
-            // canvas.width is physical, so logical width is canvas.width / dpr
-            const logicalWidth = canvas.width / dpr;
-            const logicalHeight = canvas.height / dpr;
-
-            ctx.clearRect(0, 0, logicalWidth, logicalHeight);
+        const animate = (time: number) => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             const sparks = sparksRef.current;
 
@@ -102,7 +80,6 @@ const ClickSpark = ({
 
                 const progress = elapsed / duration;
                 const eased = easeFunc(progress);
-
                 const distance = eased * sparkRadius * extraScale;
                 const lineLength = sparkSize * (1 - eased);
 
@@ -119,13 +96,13 @@ const ClickSpark = ({
                 ctx.stroke();
             }
 
-            animationId = requestAnimationFrame(draw);
+            animationId = requestAnimationFrame(animate);
         };
 
-        animationId = requestAnimationFrame(draw);
+        animationId = requestAnimationFrame(animate);
 
         return () => {
-            observer.disconnect();
+            window.removeEventListener('resize', resize);
             window.removeEventListener('click', handleClick);
             cancelAnimationFrame(animationId);
         };
@@ -138,11 +115,10 @@ const ClickSpark = ({
                 position: 'fixed',
                 top: 0,
                 left: 0,
-                width: '100%',
-                height: '100%',
+                width: '100vw',
+                height: '100vh',
                 pointerEvents: 'none',
                 zIndex: 9999,
-                display: 'block'
             }}
         />
     );
