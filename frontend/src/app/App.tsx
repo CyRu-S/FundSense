@@ -5,6 +5,7 @@ import { ProtectedRoute } from './ProtectedRoute'
 import FloatingLines from '@/components/react-bits/FloatingLines'
 import ClickSpark from '@/components/react-bits/ClickSpark'
 import { AIChatWidget } from '@/components/ai/AIChatWidget'
+import { Toaster } from '@/components/common/Toaster'
 
 // Lazy load pages for better performance
 const LandingPage = lazy(() => import('../pages/public/Home').then(m => ({ default: m.LandingPage })))
@@ -79,6 +80,7 @@ function App() {
             </Suspense>
           </BrowserRouter>
         </div>
+        <Toaster />
         <AIChatWidget />
       </div>
     </QueryClientProvider>

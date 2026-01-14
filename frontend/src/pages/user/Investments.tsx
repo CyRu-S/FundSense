@@ -59,28 +59,29 @@ export const InvestmentsPage = () => {
                 
                 <MagicGrid className="grid grid-cols-12 gap-6">
                     
-                    {/* Current Value Card */}
+                    {/* Current Value Card - Dashboard Style */}
                     <div className="col-span-12 lg:col-span-3">
                         <MagicCard 
-                            className="glass-card p-6 rounded-xl border border-white/5 h-full"
+                            className="p-6 rounded-3xl relative overflow-hidden h-full border-0"
+                            style={{ background: 'linear-gradient(135deg, #1e3a8a 0%, #172554 100%)' }}
                             glowColor="59, 130, 246"
                             enableStars={true}
                             enableTilt={false}
                         >
-                            <p className="text-slate-400 text-sm mb-3">Current Value</p>
+                            <p className="text-blue-200/60 text-sm mb-3 font-medium">Current Value</p>
                             <div className="flex items-center gap-3 mb-2">
                                 <h2 className="text-3xl font-bold text-white">$7291.32</h2>
-                                <Button variant="outline" className="h-8 px-4 text-xs border-slate-700 text-slate-300 hover:bg-slate-800 rounded-full">
+                                <Button variant="outline" className="h-8 px-4 text-xs border-white/20 text-white hover:bg-white/10 rounded-full bg-white/10">
                                     See Details
                                 </Button>
                             </div>
                             <p className="text-emerald-400 text-sm mb-6">0.64 (+1.23%)</p>
                             
-                            <div className="pt-4 border-t border-slate-800">
-                                <p className="text-slate-500 text-xs mb-1">Invested Value</p>
+                            <div className="pt-4 border-t border-white/10">
+                                <p className="text-blue-200/50 text-xs mb-1 font-medium">Invested Value</p>
                                 <div className="flex items-center gap-3">
                                     <span className="text-xl font-bold text-white">$7291.32</span>
-                                    <span className="text-slate-400 text-sm">0.64 (+1.23%)</span>
+                                    <span className="text-blue-200/70 text-sm">0.64 (+1.23%)</span>
                                 </div>
                             </div>
                         </MagicCard>

@@ -10,6 +10,7 @@ import { TrendingUp, BarChart3, Shield, Info, Check, X, ChevronDown, ChevronUp }
 import { useState } from 'react'
 import { cn } from '@/utils/helpers'
 import { MagicCard } from '@/components/react-bits/MagicCard'
+import { toast } from '@/components/common/Toaster'
 
 // Validation Schema
 const registerSchema = z.object({
@@ -57,6 +58,7 @@ export function RegisterPage() {
         console.log("Registering with", values)
         // Simulate API call
         setTimeout(() => {
+            toast.success('Account created!', 'Please check your email to verify your account.')
             // After registration, redirect to verify email (simulated) or onboarding
             navigate('/onboarding/verify-email') 
             setIsLoading(false)

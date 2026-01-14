@@ -52,18 +52,19 @@ export const PaymentsPage = () => {
                     </div>
                 </div>
 
-                {/* Total Balance Card - BLUE */}
+                {/* Total Balance Card - Dashboard Style */}
                 <MagicCard 
-                    className="bg-gradient-to-r from-blue-600 to-blue-700 p-6 rounded-2xl mb-6 relative overflow-hidden"
+                    className="p-6 rounded-3xl mb-6 relative overflow-hidden border-0"
+                    style={{ background: 'linear-gradient(135deg, #1e3a8a 0%, #172554 100%)' }}
                     glowColor="59, 130, 246"
                     enableStars={true}
                     enableTilt={false}
                 >
                     <div className="flex justify-between items-center relative z-10">
                         <div>
-                            <p className="text-blue-100 text-sm mb-1">Total Balance</p>
+                            <p className="text-blue-200/60 text-sm mb-1 font-medium">Total Balance</p>
                             <h2 className="text-4xl font-bold text-white mb-2">$145,379.00</h2>
-                            <p className="text-blue-100 text-sm">
+                            <p className="text-blue-200/70 text-sm">
                                 Your balance has grown by <span className="text-white font-semibold">$2,901</span> this month
                             </p>
                         </div>

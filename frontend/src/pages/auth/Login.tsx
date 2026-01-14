@@ -9,6 +9,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import { Navbar } from '@/components/common/Navbar'
 import { TrendingUp, ArrowLeft } from 'lucide-react'
 import { MagicCard } from '@/components/react-bits/MagicCard'
+import { toast } from '@/components/common/Toaster'
 
 const loginSchema = z.object({
     email: z.string().email("Invalid email address"),
@@ -33,6 +34,7 @@ export function LoginPage() {
                 email: values.email,
                 role: 'investor'
             }, 'mock-jwt-token-123')
+            toast.success('Welcome back!', 'You have successfully signed in.')
             navigate('/dashboard')
         }, 500)
     }
