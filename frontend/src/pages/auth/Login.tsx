@@ -1,3 +1,5 @@
+
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -7,36 +9,65 @@ import { Input } from '@/components/common/input'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/common/form'
 import { useNavigate, Link } from 'react-router-dom'
 import { Navbar } from '@/components/common/Navbar'
-import { TrendingUp, ArrowLeft } from 'lucide-react'
+import { Wallet, ArrowLeft } from 'lucide-react'
 import { MagicCard } from '@/components/react-bits/MagicCard'
 import { toast } from '@/components/common/Toaster'
 
 const loginSchema = z.object({
-    email: z.string().email("Invalid email address"),
+    username: z.string().min(3, "Username must be at least 3 characters"),
     password: z.string().min(6, "Password must be at least 6 characters"),
 })
 
 export function LoginPage() {
     const login = useAuthStore((state) => state.login)
     const navigate = useNavigate()
+    const [isLoading, setIsLoading] = useState(false)
 
     const form = useForm<z.infer<typeof loginSchema>>({
         resolver: zodResolver(loginSchema),
-        defaultValues: { email: '', password: '' },
+        defaultValues: { username: '', password: '' },
     })
 
-    function onSubmit(values: z.infer<typeof loginSchema>) {
+    async function onSubmit(values: z.infer<typeof loginSchema>) {
+        setIsLoading(true)
         console.log("Logging in with", values)
-        setTimeout(() => {
+        try {
+            const response = await fetch('http://localhost:8080/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    username: values.username,
+                    password: values.password
+                })
+            })
+
+            const data = await response.json()
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Login failed')
+            }
+
+            // Save user data and token
             login({
-                id: '1',
-                name: 'Demo Investor',
-                email: values.email,
-                role: 'investor'
-            }, 'mock-jwt-token-123')
+                id: data.id,
+                name: data.username, // Using username as name since backend doesn't return name
+                email: data.email,
+                role: (data.roles && data.roles[0]) ? data.roles[0].toLowerCase() : 'investor'
+            }, data.accessToken || data.token) // Handle both token field names
+
             toast.success('Welcome back!', 'You have successfully signed in.')
-            navigate('/dashboard')
-        }, 500)
+            
+            // Redirect based on role
+            if (data.roles && data.roles.includes('ADMIN')) {
+                navigate('/admin')
+            } else {
+                navigate('/dashboard')
+            }
+        } catch (error) {
+            toast.error('Login Failed', error instanceof Error ? error.message : 'Invalid credentials')
+        } finally {
+            setIsLoading(false)
+        }
     }
 
     const handleGoogleLogin = () => {
@@ -60,8 +91,8 @@ export function LoginPage() {
                     particleCount={20}
                 >
                     <div className="flex flex-col items-center mb-8">
-                        <div className="bg-primary p-3 rounded-full mb-3 shadow-lg shadow-primary/50">
-                            <TrendingUp className="h-8 w-8 text-white" />
+                        <div className="bg-gradient-to-br from-blue-500 to-purple-600 p-3 rounded-2xl mb-3 shadow-lg shadow-blue-500/30">
+                            <Wallet className="h-8 w-8 text-white" />
                         </div>
                         <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
                             FundSense
@@ -75,13 +106,13 @@ export function LoginPage() {
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                             <FormField
                                 control={form.control}
-                                name="email"
+                                name="username"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className="text-gray-300">Email</FormLabel>
+                                        <FormLabel className="text-gray-300">Username</FormLabel>
                                         <FormControl>
                                             <Input
-                                                placeholder="name@example.com"
+                                                placeholder="johndoe"
                                                 className="bg-gray-900/50 border-gray-700 text-white placeholder:text-gray-500 focus:ring-primary"
                                                 {...field}
                                             />
@@ -140,7 +171,7 @@ export function LoginPage() {
                                 fill="#34A853"
                             />
                             <path
-                                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.26::4.81 4.94z"
+                                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.26c.81.94 2.18 1.54 3.71 1.54z"
                                 fill="#FBBC05"
                             />
                             <path

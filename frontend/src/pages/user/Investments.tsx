@@ -1,6 +1,5 @@
 import { DashboardLayout } from '@/components/common/DashboardLayout'
 import { MagicCard, MagicGrid } from '@/components/react-bits/MagicCard'
-import { TrendingUp, TrendingDown, Search } from 'lucide-react'
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts'
 import { Button } from '@/components/common/button'
 

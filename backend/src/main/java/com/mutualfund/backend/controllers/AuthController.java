@@ -26,7 +26,6 @@ import com.mutualfund.backend.repository.UserRepository;
 import com.mutualfund.backend.security.JwtUtils;
 import com.mutualfund.backend.security.UserDetailsImpl;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {

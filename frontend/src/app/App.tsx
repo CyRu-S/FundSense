@@ -20,6 +20,19 @@ const InvestmentsPage = lazy(() => import('../pages/user/Investments').then(m =>
 const InboxPage = lazy(() => import('../pages/user/Inbox').then(m => ({ default: m.InboxPage })))
 const FundExplorerPage = lazy(() => import('../pages/user/FundExplorer').then(m => ({ default: m.FundExplorerPage })))
 
+// Admin Pages
+const AdminLayout = lazy(() => import('../components/common/AdminLayout').then(m => ({ default: m.AdminLayout })))
+const AdminOverview = lazy(() => import('../pages/admin/AdminOverview').then(m => ({ default: m.AdminOverview })))
+const ManageUsers = lazy(() => import('../pages/admin/ManageUsers').then(m => ({ default: m.ManageUsers })))
+const ManageFunds = lazy(() => import('../pages/admin/ManageFunds').then(m => ({ default: m.ManageFunds })))
+const ManualReview = lazy(() => import('../pages/admin/ManualReview').then(m => ({ default: m.ManualReview })))
+const ModelStatus = lazy(() => import('../pages/admin/ModelStatus').then(m => ({ default: m.ModelStatus })))
+const AdminAnalytics = lazy(() => import('../pages/admin/AdminAnalytics').then(m => ({ default: m.AdminAnalytics })))
+const AuditLogs = lazy(() => import('../pages/admin/AuditLogs').then(m => ({ default: m.AuditLogs })))
+const SystemSettings = lazy(() => import('../pages/admin/SystemSettings').then(m => ({ default: m.SystemSettings })))
+const MatchLogistics = lazy(() => import('../pages/admin/MatchLogistics').then(m => ({ default: m.MatchLogistics })))
+
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -73,6 +86,21 @@ function App() {
                   <Route path="/investments" element={<InvestmentsPage />} />
                   <Route path="/inbox" element={<InboxPage />} />
                   <Route path="/funds" element={<FundExplorerPage />} />
+                </Route>
+
+                {/* Admin Routes */}
+                <Route path="/admin" element={<AdminLayout />}>
+                    <Route index element={<Navigate to="/admin/overview" replace />} />
+                    <Route path="overview" element={<AdminOverview />} />
+                    <Route path="users" element={<ManageUsers />} />
+                    <Route path="funds" element={<ManageFunds />} />
+                    <Route path="review" element={<ManualReview />} />
+                    <Route path="models" element={<ModelStatus />} />
+                    <Route path="analytics" element={<AdminAnalytics />} />
+                    <Route path="audit" element={<AuditLogs />} />
+                    <Route path="settings" element={<SystemSettings />} />
+                    <Route path="matches" element={<MatchLogistics />} />
+                    <Route path="*" element={<Navigate to="/admin/overview" replace />} />
                 </Route>
 
                 <Route path="*" element={<Navigate to="/" replace />} />

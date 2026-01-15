@@ -1,6 +1,5 @@
 package com.mutualfund.backend.security;
 
-import com.mutualfund.backend.security.services.UserDetailsImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,18 +27,23 @@ public class RateLimitFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        String key = getRateLimitKey(request);
-        if (key != null) {
-            Long count = redisTemplate.opsForValue().increment(key);
-            if (count != null && count == 1) {
-                redisTemplate.expire(key, 1, TimeUnit.MINUTES);
-            }
+        try {
+            String key = getRateLimitKey(request);
+            if (key != null) {
+                Long count = redisTemplate.opsForValue().increment(key);
+                if (count != null && count == 1) {
+                    redisTemplate.expire(key, 1, TimeUnit.MINUTES);
+                }
 
-            if (count != null && count > MAX_REQUESTS_PER_MINUTE) {
-                response.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
-                response.getWriter().write("Too many requests");
-                return;
+                if (count != null && count > MAX_REQUESTS_PER_MINUTE) {
+                    response.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
+                    response.getWriter().write("Too many requests");
+                    return;
+                }
             }
+        } catch (Exception e) {
+            // Redis unavailable - Fail open (allow request)
+            logger.warn("Rate limit check failed (Redis down?): " + e.getMessage());
         }
 
         filterChain.doFilter(request, response);
