@@ -1,4 +1,4 @@
-import { DashboardLayout } from '@/components/common/DashboardLayout'
+
 import { MagicCard, MagicGrid } from '@/components/react-bits/MagicCard'
 import { TrendingUp, TrendingDown, ArrowRight, BarChart3, Calendar, DollarSign, ChevronDown, MoreVertical } from 'lucide-react'
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, BarChart, Bar, CartesianGrid, Legend } from 'recharts'
@@ -73,9 +73,16 @@ const performanceData = [
 
 export const InsightsPage = () => {
     return (
-        <DashboardLayout>
-            <div className="max-w-[1600px] mx-auto space-y-8">
+        <div className="max-w-[1600px] mx-auto space-y-8">
                 
+                {/* Header */}
+                <div className="flex justify-between items-center">
+                    <div>
+                        <h1 className="text-2xl font-bold text-white tracking-tight">Insights</h1>
+                        <p className="text-sm text-slate-400">Analytics and performance insights</p>
+                    </div>
+                </div>
+
                 {/* Top Analysts Section */}
                 <div>
                     <div className="flex justify-between items-center mb-6">
@@ -94,9 +101,10 @@ export const InsightsPage = () => {
                                         ? 'bg-gradient-to-br from-[#3b82f6] to-[#1d4ed8] border-blue-400/30' 
                                         : 'glass-card border-white/10'
                                 }`}
-                                glowColor={analyst.highlight ? "59, 130, 246" : "255, 255, 255"}
+                                style={analyst === topAnalysts[0] ? { background: 'linear-gradient(135deg, #1e3a8a 0%, #172554 100%)' } : undefined}
+                                glowColor={analyst === topAnalysts[0] ? "59, 130, 246" : undefined}
                                 enableStars={true}
-                                enableTilt={false}
+                                enableTilt={false} 
                             >
                                 {/* Header */}
                                 <div className="flex justify-between items-start mb-6">
@@ -325,7 +333,7 @@ export const InsightsPage = () => {
                                             }}
                                             labelStyle={{ color: '#fff', fontWeight: 600, marginBottom: '8px' }}
                                             itemStyle={{ color: '#94a3b8', fontSize: '12px' }}
-                                            formatter={(value: number, name: string) => [`$${value.toLocaleString()}`, name]}
+                                            // formatter={(value: number, name: string) => [`$${value.toLocaleString()}`, name]}
                                         />
                                         <Line 
                                             type="stepAfter" 
@@ -407,6 +415,5 @@ export const InsightsPage = () => {
                 </MagicGrid>
 
             </div>
-        </DashboardLayout>
     )
 }

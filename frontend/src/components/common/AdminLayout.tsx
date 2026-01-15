@@ -1,6 +1,6 @@
 
-import React, { useState } from 'react';
-import { Outlet, Link, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard,
   Users,
@@ -45,7 +45,21 @@ const NAV_ITEMS: NavItem[] = [
 export const AdminLayout: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const location = useLocation();
+  const navigate = useNavigate();
   const { logout, user } = useAuthStore();
+
+  // Default sidebar to closed on mobile
+  useEffect(() => {
+    if (window.innerWidth < 1024) {
+      setSidebarOpen(false);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
 
   return (
     // Admin Subtree - Transparent background to inherit global dark theme
@@ -88,6 +102,7 @@ export const AdminLayout: React.FC = () => {
                 <Link
                   key={item.href}
                   to={item.href}
+                  onClick={() => window.innerWidth < 1024 && setSidebarOpen(false)}
                   className={cn(
                     "flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group relative",
                     isActive
@@ -117,7 +132,7 @@ export const AdminLayout: React.FC = () => {
                </div>
                
               <button 
-                onClick={logout}
+                onClick={handleLogout}
                 className={cn(
                     "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-slate-400 hover:bg-red-500/10 hover:text-red-400 transition-colors group",
                     !sidebarOpen && "lg:justify-center"

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { DashboardLayout } from '@/components/common/DashboardLayout'
+
 import { MagicCard, MagicGrid } from '@/components/react-bits/MagicCard'
 import { Search, Filter, ChevronDown, Star, TrendingUp, TrendingDown, ArrowUpRight, BarChart3, PieChart, Wallet, Shield, Leaf, Building2, X, Plus, Check } from 'lucide-react'
 import { Button } from '@/components/common/button'
@@ -190,13 +190,12 @@ export const FundExplorerPage = () => {
     }
 
     return (
-        <DashboardLayout>
-            <div className="max-w-[1600px] mx-auto min-h-[calc(100vh-4rem)]">
+        <div className="max-w-[1600px] mx-auto min-h-[calc(100vh-4rem)]">
                 
                 {/* Header */}
                 <div className="flex justify-between items-center mb-6">
                     <div>
-                        <h1 className="text-2xl font-bold text-white mb-1">Fund Explorer</h1>
+                        <h1 className="text-2xl font-bold text-white tracking-tight">Fund Explorer</h1>
                         <p className="text-sm text-slate-400">Discover and compare mutual funds across categories</p>
                     </div>
                     <div className="flex items-center gap-3">
@@ -469,6 +468,5 @@ export const FundExplorerPage = () => {
                     </div>
                 )}
             </div>
-        </DashboardLayout>
     )
 }

@@ -1,4 +1,4 @@
-import { DashboardLayout } from '@/components/common/DashboardLayout'
+
 import { MagicCard, MagicGrid } from '@/components/react-bits/MagicCard'
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts'
 import { Button } from '@/components/common/button'
@@ -53,9 +53,16 @@ const generateSparkline = (trend: string) => {
 
 export const InvestmentsPage = () => {
     return (
-        <DashboardLayout>
-            <div className="max-w-[1600px] mx-auto space-y-6 pr-2">
+        <div className="max-w-[1600px] mx-auto space-y-6 pr-2">
                 
+                {/* Header */}
+                <div className="flex justify-between items-center">
+                    <div>
+                        <h1 className="text-2xl font-bold text-white tracking-tight">Investments</h1>
+                        <p className="text-sm text-slate-400">Track your portfolio and market performance</p>
+                    </div>
+                </div>
+
                 <MagicGrid className="grid grid-cols-12 gap-6">
                     
                     {/* Current Value Card - Dashboard Style */}
@@ -386,6 +393,5 @@ export const InvestmentsPage = () => {
                     </div>
                 </MagicGrid>
             </div>
-        </DashboardLayout>
     )
 }

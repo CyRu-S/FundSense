@@ -55,7 +55,7 @@ body {
   /* Deep Navy to Blue 950 gradient */
   color: var(--color-foreground);
   min-height: 100vh;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: 'Chillax', 'Inter', system-ui, sans-serif;
 }
 
 /* Glass Card Effect */

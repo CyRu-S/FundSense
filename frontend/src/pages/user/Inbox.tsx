@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { DashboardLayout } from '@/components/common/DashboardLayout'
+
 import { MagicCard, MagicGrid } from '@/components/react-bits/MagicCard'
 import { Button } from '@/components/common/button'
 import { 
@@ -180,13 +180,12 @@ export const InboxPage = () => {
     }
 
     return (
-        <DashboardLayout>
-            <div className="max-w-[1200px] mx-auto">
+        <div className="max-w-[1200px] mx-auto">
                 
                 {/* Header */}
                 <div className="flex justify-between items-center mb-6">
                     <div>
-                        <h1 className="text-2xl font-bold text-white mb-1">Inbox</h1>
+                        <h1 className="text-2xl font-bold text-white tracking-tight">Inbox</h1>
                         <p className="text-sm text-slate-400">
                             Stay updated with your investments, alerts and recommendations
                         </p>
@@ -412,6 +411,5 @@ export const InboxPage = () => {
                     </div>
                 </MagicCard>
             </div>
-        </DashboardLayout>
     )
 }

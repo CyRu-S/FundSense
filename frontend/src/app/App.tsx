@@ -19,6 +19,7 @@ const InsightsPage = lazy(() => import('../pages/user/Insights').then(m => ({ de
 const InvestmentsPage = lazy(() => import('../pages/user/Investments').then(m => ({ default: m.InvestmentsPage })))
 const InboxPage = lazy(() => import('../pages/user/Inbox').then(m => ({ default: m.InboxPage })))
 const FundExplorerPage = lazy(() => import('../pages/user/FundExplorer').then(m => ({ default: m.FundExplorerPage })))
+const DashboardLayout = lazy(() => import('../components/common/DashboardLayout').then(m => ({ default: m.DashboardLayout })))
 
 // Admin Pages
 const AdminLayout = lazy(() => import('../components/common/AdminLayout').then(m => ({ default: m.AdminLayout })))
@@ -80,27 +81,31 @@ function App() {
 
                 <Route element={<ProtectedRoute />}>
                   <Route path="/onboarding/profile" element={<OnboardingPage />} />
-                  <Route path="/dashboard" element={<DashboardPage />} />
-                  <Route path="/payments" element={<PaymentsPage />} />
-                  <Route path="/insights" element={<InsightsPage />} />
-                  <Route path="/investments" element={<InvestmentsPage />} />
-                  <Route path="/inbox" element={<InboxPage />} />
-                  <Route path="/funds" element={<FundExplorerPage />} />
+
+                  {/* Investor Dashboard Routes */}
+                  <Route path="/" element={<DashboardLayout />}>
+                    <Route path="dashboard" element={<DashboardPage />} />
+                    <Route path="payments" element={<PaymentsPage />} />
+                    <Route path="insights" element={<InsightsPage />} />
+                    <Route path="investments" element={<InvestmentsPage />} />
+                    <Route path="inbox" element={<InboxPage />} />
+                    <Route path="funds" element={<FundExplorerPage />} />
+                  </Route>
                 </Route>
 
                 {/* Admin Routes */}
                 <Route path="/admin" element={<AdminLayout />}>
-                    <Route index element={<Navigate to="/admin/overview" replace />} />
-                    <Route path="overview" element={<AdminOverview />} />
-                    <Route path="users" element={<ManageUsers />} />
-                    <Route path="funds" element={<ManageFunds />} />
-                    <Route path="review" element={<ManualReview />} />
-                    <Route path="models" element={<ModelStatus />} />
-                    <Route path="analytics" element={<AdminAnalytics />} />
-                    <Route path="audit" element={<AuditLogs />} />
-                    <Route path="settings" element={<SystemSettings />} />
-                    <Route path="matches" element={<MatchLogistics />} />
-                    <Route path="*" element={<Navigate to="/admin/overview" replace />} />
+                  <Route index element={<Navigate to="/admin/overview" replace />} />
+                  <Route path="overview" element={<AdminOverview />} />
+                  <Route path="users" element={<ManageUsers />} />
+                  <Route path="funds" element={<ManageFunds />} />
+                  <Route path="review" element={<ManualReview />} />
+                  <Route path="models" element={<ModelStatus />} />
+                  <Route path="analytics" element={<AdminAnalytics />} />
+                  <Route path="audit" element={<AuditLogs />} />
+                  <Route path="settings" element={<SystemSettings />} />
+                  <Route path="matches" element={<MatchLogistics />} />
+                  <Route path="*" element={<Navigate to="/admin/overview" replace />} />
                 </Route>
 
                 <Route path="*" element={<Navigate to="/" replace />} />

@@ -1,4 +1,4 @@
-import { DashboardLayout } from '@/components/common/DashboardLayout'
+
 import { MagicCard, MagicGrid } from '@/components/react-bits/MagicCard'
 import { ArrowUpRight, ArrowDownRight, Send, Download, RefreshCw, Filter, MoreHorizontal, CheckCircle } from 'lucide-react'
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, CartesianGrid } from 'recharts'
@@ -30,14 +30,13 @@ const recentActivity = [
 
 export const PaymentsPage = () => {
     return (
-        <DashboardLayout>
-            <div className="max-w-[1600px] mx-auto min-h-[calc(100vh-4rem)] flex flex-col">
+        <div className="max-w-[1600px] mx-auto min-h-[calc(100vh-4rem)] flex flex-col">
                 
                 {/* Header */}
                 <div className="flex justify-between items-center mb-6">
                     <div>
-                        <h1 className="text-xl font-semibold text-white mb-1">Welcome Back, Alexander!</h1>
-                        <p className="text-sm text-slate-400">All general information appears in this page.</p>
+                        <h1 className="text-2xl font-bold text-white tracking-tight">Payments</h1>
+                        <p className="text-sm text-slate-400">Manage your transactions and payment methods</p>
                     </div>
                     <div className="flex items-center gap-3">
                         <div className="flex items-center gap-2 text-sm text-slate-400">
@@ -341,6 +340,5 @@ export const PaymentsPage = () => {
                     ))}
                 </MagicCard>
             </div>
-        </DashboardLayout>
     )
 }
